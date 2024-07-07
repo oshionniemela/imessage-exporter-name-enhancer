@@ -1,13 +1,13 @@
 # imessage-exporter-name-enhancer
 *** Enhances [iMessage Exporter](https://github.com/ReagentX/imessage-exporter) by adding contact names to HTML/TXT message files and renaming files to include contact names. ***
 
-[iMessage Exporter](https://github.com/ReagentX/imessage-exporter) is incredibly useful, but I found it lacking one feature: listing the contact's name next to their number (both in the file name and within the HTML messages). To address this, I wrote a script that accomplishes this task, and I believe it could be beneficial for others. Perhaps it could even be integrated into iMessage Exporter itself. I suggest adding a `--contacts {contact-vcf-location}` option for this purpose. For example:
+[iMessage Exporter](https://github.com/ReagentX/imessage-exporter) is incredibly useful, but I found it lacking one feature: listing the contact's name next to their number (both in the file name and within the HTML messages). To address this, I wrote a script that accomplishes this task, and I believe it could be beneficial for others. Perhaps it could even be integrated into iMessage Exporter itself at some point. I suggest iMessage Exporter could perhaps add a `--contacts {contact-vcf-location}` option. For example:
 
 ```bash
 $ imessage-exporter -f html -c compatible --contacts {contact-vcf-location} --country-code US
 ```
 
-For now, to use this script separately, follow these steps:
+For now, since this feature isn't built into iMessage Exporter, to use this script separately follow these steps:
 
 #### Steps to Use the Contact Parser Script
 
