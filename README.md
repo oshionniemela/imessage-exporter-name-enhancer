@@ -42,3 +42,13 @@ For now, since this feature isn't built into iMessage Exporter, to use this scri
 
 - **Backup Your Data**: Before running the script, please ensure you have backed up your exported HTML messages.
 - **Tested on Mac**: This script has only been tested on a Mac environment.
+
+### Example Without Contact Parser
+
+![Without Contact Parser](images/without-contact-parser.png "HTML Output Without Contact Parser")
+
+---
+
+### Example With Contact Parser
+
+![With Contact Parser](images/with-contact-parser.png "HTML Output With Contact Parser")
