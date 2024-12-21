@@ -17,7 +17,7 @@ Follow one of the methods below to export your contacts as a `.vcf` file:
 
 - **From the iOS Contacts app**:
   1. Open the Contacts app.
-  2. Navigate to Lists and tap and hold a specific list.
+  2. Navigate to Lists (top-left) and tap and hold a specific list.
   3. Choose Export from the options.
   4. Confirm which details you want to include and tap Done.
   5. Select your preferred sharing method such as emailing yourself the vcf file.
