@@ -15,25 +15,26 @@ For now, since this feature isn't built into iMessage Exporter, to use this scri
 
 Follow one of the methods below to export your contacts as a vCard ('.vcf' file):
 
-- **From the iOS Contacts app**:
-  1. Open the Contacts app.
-  2. Navigate to Lists (top-left) and tap and hold a specific list.
-  3. Choose Export from the options.
-  4. Confirm which details you want to include and tap Done.
-  5. Select your preferred sharing method such as emailing yourself the vcf file.
-
 - **Using iCloud.com**:
   1. Sync your iPhone contacts to iCloud.  
   2. Log in to [iCloud Contacts](https://www.icloud.com/contacts).
   3. Select all contacts by pressing `Cmd+A` (Mac) or `Ctrl+A` (Windows).  
   4. Click the **share icon** (top-right corner).
-  5. Choose "Export vCard."
+  5. Choose "Export vCard" to download the file to your computer.
 
 - **Using iCloud on a Mac**:  
   1. Sync your iPhone contacts to iCloud.  
   2. Open the **Contacts** app on your Mac.  
   3. Select all contacts by pressing `Cmd+A`.  
   4. Go to `File` -> `Export` -> `Export vCard`.
+
+ - **From the iOS Contacts app**:
+  1. Open the Contacts app.
+  2. Navigate to Lists (top-left) and tap and hold a specific list.
+  3. Choose Export from the options.
+  4. Confirm which details you want to include and tap Done.
+  5. Select your preferred sharing method such as emailing yourself the vcf file.
+  6. Open that email from your computer and you can then download it.
 
 After exporting, you’ll have a `.vcf` file that you can use with this script to enhance your exported iMessage files.
 
