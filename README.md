@@ -9,14 +9,35 @@ $ imessage-exporter -f html -c compatible --contacts {contact-vcf-location} --co
 
 For now, since this feature isn't built into iMessage Exporter, to use this script separately follow these steps:
 
-#### Steps to Use the Contact Parser Script
+### Steps to Use the Contact Parser Script
 
-1. **Export Your Contacts to a VCF File**
-   - On your Mac, open the Contacts app.
-   - Select all contacts.
-   - Navigate to `File` -> `Export` -> `Export vCard`.
+#### 1. Export Your Contacts to a vCard (VCF File)
 
-2. **Prepare the Contact Parser Script**
+Follow one of the methods below to export your contacts as a `.vcf` file:
+
+- **From the iOS Contacts app**:
+  1. Open the Contacts app.
+  2. Navigate to Lists and tap and hold a specific list.
+  3. Choose Export from the options.
+  4. Confirm which details you want to include and tap Done.
+  5. Select your preferred sharing method such as emailing yourself the vcf file.
+
+- **Using iCloud.com**:
+  1. Sync your iPhone contacts to iCloud.  
+  2. Log in to [iCloud Contacts](https://www.icloud.com/contacts).
+  3. Select all contacts by pressing `Cmd+A` (Mac) or `Ctrl+A` (Windows).  
+  4. Click the **share icon** (top-right corner).
+  5. Choose "Export vCard."
+
+- **Using iCloud on a Mac**:  
+  1. Sync your iPhone contacts to iCloud.  
+  2. Open the **Contacts** app on your Mac.  
+  3. Select all contacts by pressing `Cmd+A`.  
+  4. Go to `File` -> `Export` -> `Export vCard`.
+
+After exporting, you’ll have a `.vcf` file that you can use with this script to enhance your exported iMessage files.
+
+3. **Prepare the Contact Parser Script**
    - Open the terminal and navigate to the `Contact Parser` directory.
    - Make the script executable with:
      ```bash
@@ -28,7 +49,7 @@ For now, since this feature isn't built into iMessage Exporter, to use this scri
      ```
    - This will update every HTML message file in the directory with the contact's name (if found in the VCF file).
 
-3. **Handling International Numbers**
+4. **Handling International Numbers**
    - By default, the script assumes US numbers. If you are in another country, you can pass a third parameter with your 2-letter country code:
      ```bash
      ./run_contact_parser.sh {contacts-vcf-location} {imessages-directory} {country-code}
