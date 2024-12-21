@@ -11,9 +11,9 @@ For now, since this feature isn't built into iMessage Exporter, to use this scri
 
 ### Steps to Use the Contact Parser Script
 
-#### 1. Export Your Contacts to a vCard (VCF File)
+#### 1. Export Your Contacts to a vCard ('.vcf' File)
 
-Follow one of the methods below to export your contacts as a vCard ('.vcf' file):
+Follow one of the methods below to export your contacts:
 
 - **Using iCloud.com**:
   1. Sync your iPhone contacts to iCloud.  
