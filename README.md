@@ -13,7 +13,7 @@ For now, since this feature isn't built into iMessage Exporter, to use this scri
 
 #### 1. Export Your Contacts to a vCard (VCF File)
 
-Follow one of the methods below to export your contacts as a `.vcf` file:
+Follow one of the methods below to export your contacts as a vCard ('.vcf' file):
 
 - **From the iOS Contacts app**:
   1. Open the Contacts app.
