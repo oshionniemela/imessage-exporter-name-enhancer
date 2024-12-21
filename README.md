@@ -28,7 +28,7 @@ Follow one of the methods below to export your contacts:
   3. Select all contacts by pressing `Cmd+A`.  
   4. Go to `File` -> `Export` -> `Export vCard`.
 
- - **From the iOS Contacts app**:
+ - **From the iOS Contacts app**:  
   1. Open the Contacts app.
   2. Navigate to Lists (top-left) and tap and hold a specific list.
   3. Choose Export from the options.
