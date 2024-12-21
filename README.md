@@ -36,9 +36,13 @@ Follow one of the methods below to export your contacts:
   5. Select your preferred sharing method such as emailing yourself the vcf file.
   6. Open that email from your computer and you can then download it.
 
+---
+
 After exporting, you’ll have a `.vcf` file that you can use with this script to enhance your exported iMessage files.
 
-3. **Prepare the Contact Parser Script**
+### macOS/Linux Instructions
+
+#### 2. **Prepare the Contact Parser Script**
    - Open the terminal and navigate to the `Contact Parser` directory.
    - Make the script executable with:
      ```bash
@@ -46,26 +50,49 @@ After exporting, you’ll have a `.vcf` file that you can use with this script t
      ```
    - Run the script with:
      ```bash
-     ./run_contact_parser.sh {contacts-vcf-location} {imessages-directory}
+     ./run_contact_parser.sh path_to_vcf_file path_to_imessage_export
      ```
-   - This will update every HTML message file in the directory with the contact's name (if found in the VCF file).
+   - This will update every HTML or TXT message file in the directory with the contact's name (if found in the VCF file).
 
-4. **Handling International Numbers**
+### 3. **Handling International Numbers**
    - By default, the script assumes US numbers. If you are in another country, you can pass a third parameter with your 2-letter country code:
      ```bash
-     ./run_contact_parser.sh {contacts-vcf-location} {imessages-directory} {country-code}
+     ./run_contact_parser.sh path_to_vcf_file path_to_imessage_export [country_code]
      ```
    - For example:
      ```bash
-     ./run_contact_parser.sh contacts.vcf imessages-directory UK
+     ./run_contact_parser.sh /Users/myName/Documents/MyContacts.vcf /Users/myName/Documents/MyMessagesExport/iMessages/ UK
      ```
 
-#### Important Notes
+---
 
-- **Backup Your Data**: Before running the script, please ensure you have backed up your exported HTML messages.
-- **Tested on Mac**: This script has only been tested on a Mac environment.
+### Windows Instructions
+
+#### 2. **Prepare the Contact Parser Script**
+   - Open the Command Prompt and navigate to the `Contact Parser` directory.
+   - Run the script with:
+     ```cmd
+     run_contact_parser.bat path_to_vcf_file path_to_imessage_export
+     ```
+   - This will update every HTML or TXT message file in the directory with the contact's name (if found in the VCF file).
+
+#### 3. **Handling International Numbers**
+   - By default, the script assumes US numbers. If you are in another country, you can pass a third parameter with your 2-letter country code:
+     ```cmd
+     run_contact_parser.bat path_to_vcf_file path_to_imessage_export [country_code]
+     ```
+   - For example:
+     ```cmd
+     run_contact_parser.bat C:\Users\myName\Documents\MyContacts.vcf C:\Users\myName\Documents\MyMessagesExport\iMessages\ UK
+     ```
 
 ---
+
+### Notes:
+- **Backup Your Data**: Before running the script, please ensure you have backed up your exported HTML messages.
+- Ensure Python 3.x is installed on your system.
+- The required Python packages (`vobject` and `phonenumbers`) are automatically installed when the script runs.
+- If you encounter errors, check that the paths provided to the script are correct and valid.
 
 ### Example Without Contact Parser
 
