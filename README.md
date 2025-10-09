@@ -1,4 +1,3 @@
-md
 # imessage-exporter-name-enhancer  
 ***Enhances [iMessage Exporter](https://github.com/ReagentX/imessage-exporter) by adding contact names to HTML/TXT message files and renaming files to include contact names.***
 
