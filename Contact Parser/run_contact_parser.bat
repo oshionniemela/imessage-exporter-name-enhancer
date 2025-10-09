@@ -1,40 +1,67 @@
 @echo off
-:: Check if the correct number of arguments is provided
+setlocal enabledelayedexpansion
+
+:: -----------------------------------------
+:: Contact Parser Launcher (Windows Version)
+:: -----------------------------------------
+:: Bootstraps a Python virtual environment
+:: and runs contact_parser.py with provided
+:: arguments.
+::
+:: Usage:
+::   run_contact_parser.bat {contacts.vcf} {imessage_export_dir} [options]
+::
+:: Examples:
+::   run_contact_parser.bat contacts.vcf export_dir
+::   run_contact_parser.bat contacts.vcf export_dir -r
+::   run_contact_parser.bat contacts.vcf export_dir -c GB -m 80
+:: -----------------------------------------
+
+:: --- Verify argument count ---
 if "%~2"=="" (
-    echo Usage: %~nx0 {contacts-location} {messages-location} [country-code]
+    echo Usage: %~nx0 {contacts-location} {messages-location} [options]
+    echo Example: %~nx0 contacts.vcf export_dir -r -c US -m 80
     exit /b 1
 )
 
-set CONTACTS_LOCATION=%1
-set MESSAGES_LOCATION=%2
-set COUNTRY_CODE=%3
+:: --- Resolve paths ---
+set SCRIPT_DIR=%~dp0
+set VENV_DIR=%SCRIPT_DIR%.venv
 
-:: Default country code to US if not provided
-if "%COUNTRY_CODE%"=="" (
-    set COUNTRY_CODE=US
+:: --- Check if Python is available ---
+where python >nul 2>nul
+if errorlevel 1 (
+    echo Error: Python is not installed or not in PATH.
+    exit /b 1
 )
 
-:: Create a temporary directory for the virtual environment
-set TEMP_DIR=%TEMP%\contact_parser_venv
-if exist "%TEMP_DIR%" rmdir /s /q "%TEMP_DIR%"
-mkdir "%TEMP_DIR%"
-cd /d "%TEMP_DIR%"
+:: --- Create virtual environment if missing ---
+if not exist "%VENV_DIR%" (
+    echo Setting up Python virtual environment...
+    python -m venv "%VENV_DIR%"
+    call "%VENV_DIR%\Scripts\activate.bat"
 
-:: Create the virtual environment
-python -m venv venv
+    echo Installing required packages...
+    python -m pip install --quiet --upgrade pip
+    python -m pip install --quiet vobject phonenumbers
 
-:: Activate the virtual environment
-call venv\Scripts\activate.bat
+    call "%VENV_DIR%\Scripts\deactivate.bat"
+)
 
-:: Install the required packages
-pip install vobject phonenumbers
+:: --- Activate environment ---
+call "%VENV_DIR%\Scripts\activate.bat"
 
-:: Navigate back to the directory containing contact_parser.py
-cd /d "%~dp0"
+:: --- Verify that the main script exists ---
+if not exist "%SCRIPT_DIR%contact_parser.py" (
+    echo Error: contact_parser.py not found in %SCRIPT_DIR%
+    call "%VENV_DIR%\Scripts\deactivate.bat"
+    exit /b 1
+)
 
-:: Run the Python script
-python contact_parser.py "%CONTACTS_LOCATION%" "%MESSAGES_LOCATION%" "%COUNTRY_CODE%"
+:: --- Run Python script with all arguments ---
+python "%SCRIPT_DIR%contact_parser.py" %*
 
-:: Deactivate and clean up
-call venv\Scripts\deactivate.bat
-rmdir /s /q "%TEMP_DIR%"
+:: --- Deactivate environment ---
+call "%VENV_DIR%\Scripts\deactivate.bat"
+
+endlocal

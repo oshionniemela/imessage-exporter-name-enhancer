@@ -1,38 +1,54 @@
 #!/bin/bash
+set -euo pipefail
 
-# Check if the correct number of arguments is provided
-if [ "$#" -lt 2 ] || [ "$#" -gt 3 ]; then
-  echo "Usage: $0 {contacts-location} {messages-location} [country-code]"
+# -------------------------------
+# Contact Parser Launcher Script
+# -------------------------------
+# Purpose:
+#   Bootstraps a Python environment and runs contact_parser.py
+#   with all provided arguments.
+#
+# Usage:
+#   ./run_contact_parser.sh {contacts.vcf} {imessage_export_dir} [options]
+#
+# Examples:
+#   ./run_contact_parser.sh contacts.vcf export_dir
+#   ./run_contact_parser.sh contacts.vcf export_dir -r
+#   ./run_contact_parser.sh contacts.vcf export_dir -c GB -m 80
+# -------------------------------
+
+# --- Ensure at least 2 required arguments ---
+if [ "$#" -lt 2 ]; then
+  echo "Usage: $0 {contacts-location} {messages-location} [options]"
+  echo "Example: $0 contacts.vcf export_dir -r -c US -m 80"
   exit 1
 fi
 
-CONTACTS_LOCATION=$1
-MESSAGES_LOCATION=$2
-COUNTRY_CODE=${3:-US}  # Default to 'US' if the third argument is not provided
+# --- Determine script directory ---
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+VENV_DIR="${SCRIPT_DIR}/.venv"
 
-# Create a temporary directory for the virtual environment
-TEMP_DIR=$(mktemp -d)
-cd $TEMP_DIR || exit
+# --- Create and activate virtual environment if needed ---
+if [ ! -d "$VENV_DIR" ]; then
+  echo "Setting up virtual environment at: $VENV_DIR"
+  python3 -m venv "$VENV_DIR"
+  source "$VENV_DIR/bin/activate"
 
-# Function to clean up the temporary directory
-cleanup() {
-    deactivate 2>/dev/null
-    cd - || exit
-    rm -rf $TEMP_DIR
-}
+  echo "Installing required dependencies..."
+  pip install --quiet --upgrade pip
+  pip install --quiet vobject phonenumbers
+else
+  source "$VENV_DIR/bin/activate"
+fi
 
-# Register the cleanup function to be called on script exit
-trap cleanup EXIT
+# --- Verify that contact_parser.py exists ---
+if [ ! -f "${SCRIPT_DIR}/contact_parser.py" ]; then
+  echo "Error: contact_parser.py not found in ${SCRIPT_DIR}"
+  exit 1
+fi
 
-# Create and activate a virtual environment
-python3 -m venv venv
-source venv/bin/activate
+# --- Execute the Python script, forwarding all arguments ---
+python3 "${SCRIPT_DIR}/contact_parser.py" "$@"
 
-# Install the required packages
-pip install vobject phonenumbers
-
-# Navigate back to the directory containing contact_parser.py
-cd - || exit
-
-# Run the Python script
-python contact_parser.py "$CONTACTS_LOCATION" "$MESSAGES_LOCATION" "$COUNTRY_CODE"
+# --- Deactivate environment cleanly ---
+deactivate 2>/dev/null || true
