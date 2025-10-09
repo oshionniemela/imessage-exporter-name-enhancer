@@ -1,105 +1,138 @@
-# imessage-exporter-name-enhancer
-*** Enhances [iMessage Exporter](https://github.com/ReagentX/imessage-exporter) by adding contact names to HTML/TXT message files and renaming files to include contact names. ***
+md
+# imessage-exporter-name-enhancer  
+***Enhances [iMessage Exporter](https://github.com/ReagentX/imessage-exporter) by adding contact names to HTML/TXT message files and renaming files to include contact names.***
 
-[iMessage Exporter](https://github.com/ReagentX/imessage-exporter) is incredibly useful, but I found it lacking one feature: listing the contact's name next to their number (both in the file name and within the HTML messages). To address this, I wrote a script that accomplishes this task, and I believe it could be beneficial for others. Perhaps it could even be integrated into iMessage Exporter itself at some point. I suggest iMessage Exporter could perhaps add a `--contacts {contact-vcf-location}` option. For example:
+[iMessage Exporter](https://github.com/ReagentX/imessage-exporter) is incredibly useful, but it lacks one key feature: displaying contact names next to phone numbers (both inside message files and in their filenames).  
+This script enhances your exported messages by replacing phone numbers with names from your contacts and renaming files for easier navigation.
+
+---
+
+## 🌍 Export Your Contacts to a vCard (`.vcf` File)
+
+You can export your contacts to a `.vcf` file using **iCloud.com**, the **Contacts app on macOS**, or your **iPhone** directly.
+
+### iCloud.com
+
+1. Make sure your iPhone contacts are synced to iCloud.
+2. Log in to [iCloud Contacts](https://www.icloud.com/contacts).
+3. Select all contacts (`Cmd+A` on Mac or `Ctrl+A` on Windows).
+4. Click the **share icon** and choose **Export vCard**.
+
+### macOS Contacts App
+
+1. Make sure your iPhone contacts are synced to iCloud.
+2. Open **Contacts**.
+3. Select all (`Cmd+A`).
+4. Go to `File` → `Export` → `Export vCard`.
+
+### iPhone
+
+1. Open the **Contacts** app.
+2. Tap **Lists**, then hold a list and choose **Export**.
+3. Confirm which details you want to include and tap **Done**.
+4. Share or email the `.vcf` file to yourself to download to your computer.
+
+---
+
+## 🧰 Setup & Installation
+
+### macOS/Linux
+
+1. Open Terminal and navigate to the script directory.
+2. Make it executable:
+   ```bash
+   chmod +x run_contact_parser.sh
+   ```
+
+3. Run the script:
+
+   ```bash
+   ./run_contact_parser.sh path_to_vcf path_to_imessage_export [options]
+   ```
+
+### Windows
+
+1. Open **Command Prompt**.
+2. Navigate to the script directory.
+3. Run:
+
+   ```cmd
+   run_contact_parser.bat path_to_vcf path_to_imessage_export [options]
+   ```
+
+---
+
+## ⚙️ Arguments & Options
+
+### Optional Parameters
+
+| Option            | Description                                                                                                                                                     | Example  |
+| ----------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------- |
+| `-r`, `--replace` | **Replace phone numbers entirely** with contact names (instead of showing both).<br>Default behavior adds both name and number (e.g., “John Doe +14151234567”). | `-r`     |
+| `-c`, `--country` | Specify a **default country code** for phone number normalization.<br>Useful for local numbers without country prefixes. Defaults to `US`.                      | `-c GB`  |
+| `-m`, `--maxlen`  | Set the maximum filename length for renamed files. Defaults to `0` which uses the 255-character system limit.                  | `-m 80` |
+
+---
+
+## 🧭 Examples
+
+**1. Basic Usage (Default Behavior)**
+Adds contact names next to phone numbers and renames files with names.
 
 ```bash
-$ imessage-exporter -f html -c compatible --contacts {contact-vcf-location} --country-code US
+./run_contact_parser.sh contacts.vcf imessage_export_dir
 ```
 
-For now, since this feature isn't built into iMessage Exporter, to use this script separately follow these steps:
+**2. Replace Phone Numbers Entirely**
+Removes phone numbers and replaces them with just the contact name.
 
-### Steps to Use the Contact Parser Script
+```bash
+./run_contact_parser.sh contacts.vcf imessage_export_dir -r
+```
 
-#### 1. Export Your Contacts to a vCard ('.vcf' File)
+Example result:
 
-Follow one of the methods below to export your contacts:
+> “John Doe: Hey!” instead of “John Doe +14151234567: Hey!”
 
-- **Using iCloud.com**:
-  1. Sync your iPhone contacts to iCloud.  
-  2. Log in to [iCloud Contacts](https://www.icloud.com/contacts).
-  3. Select all contacts by pressing `Cmd+A` (Mac) or `Ctrl+A` (Windows).  
-  4. Click the **share icon** (top-right corner).
-  5. Choose "Export vCard" to download the file to your computer.
+**3. Handle International Numbers (e.g., UK)**
+Provide a country code to correctly format local numbers.
 
-- **Using iCloud on a Mac**:  
-  1. Sync your iPhone contacts to iCloud.  
-  2. Open the **Contacts** app on your Mac.  
-  3. Select all contacts by pressing `Cmd+A`.  
-  4. Go to `File` -> `Export` -> `Export vCard`.
- 
-- **From the iOS Contacts app**:  
-  1. Open the Contacts app.
-  2. Navigate to Lists (top-left) and tap and hold a specific list.
-  3. Choose Export from the options.
-  4. Confirm which details you want to include and tap Done.
-  5. Select your preferred sharing method such as emailing yourself the vcf file.
-  6. Open that email from your computer and you can then download it.
+```bash
+./run_contact_parser.sh contacts.vcf imessage_export_dir -c GB
+```
 
----
+**4. Enforce a Maximum Filename Length**
 
-After exporting, you’ll have a `.vcf` file that you can use with this script to enhance your exported iMessage files.
+```bash
+./run_contact_parser.sh contacts.vcf imessage_export_dir -m 100
+```
 
-### macOS/Linux Instructions
+**5. Combine All Options**
 
-#### 2. **Prepare the Contact Parser Script**
-   - Open the terminal and navigate to the `Contact Parser` directory.
-   - Make the script executable with:
-     ```bash
-     chmod +x run_contact_parser.sh
-     ```
-   - Run the script with:
-     ```bash
-     ./run_contact_parser.sh path_to_vcf_file path_to_imessage_export
-     ```
-   - This will update every HTML or TXT message file in the directory with the contact's name (if found in the VCF file).
-
-### 3. **Handling International Numbers**
-   - By default, the script assumes US numbers. If you are in another country, you can pass a third parameter with your 2-letter country code:
-     ```bash
-     ./run_contact_parser.sh path_to_vcf_file path_to_imessage_export [country_code]
-     ```
-   - For example:
-     ```bash
-     ./run_contact_parser.sh /Users/myName/Documents/MyContacts.vcf /Users/myName/Documents/MyMessagesExport/iMessages/ UK
-     ```
+```bash
+./run_contact_parser.sh contacts.vcf imessage_export_dir -r -c GB -m 100
+```
 
 ---
 
-### Windows Instructions
+## ⚠️ Notes & Recommendations
 
-#### 2. **Prepare the Contact Parser Script**
-   - Open the Command Prompt and navigate to the `Contact Parser` directory.
-   - Run the script with:
-     ```cmd
-     run_contact_parser.bat path_to_vcf_file path_to_imessage_export
-     ```
-   - This will update every HTML or TXT message file in the directory with the contact's name (if found in the VCF file).
+* **Run this only on a fresh export from iMessage Exporter (or from a copy).**
+  Re-running it on an already processed folder may duplicate names, for example:
+  `John Doe John Doe +14151234567` instead of `John Doe +14151234567`.
+* Requires **Python 3.6 or higher** (recommended **3.8+** for best performance).
+* The launcher scripts automatically install dependencies:
 
-#### 3. **Handling International Numbers**
-   - By default, the script assumes US numbers. If you are in another country, you can pass a third parameter with your 2-letter country code:
-     ```cmd
-     run_contact_parser.bat path_to_vcf_file path_to_imessage_export [country_code]
-     ```
-   - For example:
-     ```cmd
-     run_contact_parser.bat C:\Users\myName\Documents\MyContacts.vcf C:\Users\myName\Documents\MyMessagesExport\iMessages\ UK
-     ```
+  * `vobject`
+  * `phonenumbers`
+* Automatically truncates filenames safely to prevent cross-platform errors.
 
 ---
 
-### Notes:
-- **Backup Your Data**: Before running the script, please ensure you have backed up your exported HTML messages.
-- Ensure Python 3.x is installed on your system.
-- The required Python packages (`vobject` and `phonenumbers`) are automatically installed when the script runs.
-- If you encounter errors, check that the paths provided to the script are correct and valid.
+## 🖼️ Example Results
 
-### Example Without Contact Parser
-
+**Without Contact Parser:**
 ![Without Contact Parser](images/without-contact-parser.png "HTML Output Without Contact Parser")
 
----
-
-### Example With Contact Parser
-
+**With Contact Parser:**
 ![With Contact Parser](images/with-contact-parser.png "HTML Output With Contact Parser")
